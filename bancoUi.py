@@ -92,4 +92,13 @@ class VentanaInfoCuenta(tki.Toplevel):
         else:
             for transaccion in transacciones:
                 self.tv.insert(self.infoTransacciones,"end",text=str(transaccion))
-        self.tv.pack(fill=tki.BOTH, expand=True)
+        self.labelBoton = tki.Label(self, text="¿DESEA DEPOSITAR DINERO?")
+        self.botonDepositar = tki.Button(self,text="DEPOSITAR")
+        self.botonDepositar.configure(bg="lightblue")
+        self.labelBoton2 = tki.Label(self,text="¿DESEA RETIRAR DINERO?")
+        self.botonRetirar = tki.Button(self,text="RETIRAR",bg="lightblue")
+        self.tv.pack(fill=tki.X, side=tki.TOP, padx=10, pady=10)
+        self.labelBoton.pack()
+        self.botonDepositar.pack()
+        self.labelBoton2.pack()
+        self.botonRetirar.pack()
