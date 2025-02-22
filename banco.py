@@ -8,7 +8,11 @@ class Banco:
         self.cuentasBanco = []
     def crearCuenta(self, titular, saldo_inicial):
         self.numeroCuentas += 1
-        cuentaNueva = CuentaBancaria(titular, saldo_inicial, self.numeroCuentas)
+        try:
+            cuentaNueva = CuentaBancaria(titular, saldo_inicial, self.numeroCuentas)
+        except ValueError as err:
+            self.numeroCuentas -= 1
+            raise err
         cuentaDict = dict()
         cuentaDict[cuentaNueva.getNumeroCuenta()] = cuentaNueva
         self.cuentasBanco.append(cuentaDict)
@@ -45,7 +49,8 @@ class Banco:
     def consultarCuenta(self, numeroCuenta):
         for cuenta in self.cuentasBanco:
             if numeroCuenta in cuenta.keys():
-                print(cuenta[numeroCuenta])
+                return cuenta[numeroCuenta]
+        raise ValueError("CUENTA NO ENCONTRADA")
     def transferir(self, numCuentaOrigen, numCuentaDestino, monto):
         for cuenta in self.cuentasBanco:
             if numCuentaOrigen in cuenta.keys():
@@ -64,15 +69,4 @@ class Banco:
         cuentaDestino.setSaldo(nuevoSaldoDestino)
         infDestino = '${0} RECIBIDOS DE: {1}|{2}'.format(monto, cuentaOrigen.getNumeroCuenta(), date.today())
         cuentaDestino.registrarTransaccion(infDestino)
-        
-        
-banco = Banco()
-banco.crearCuenta("Pepito",1000)
-banco.crearCuenta("Juanjo", 500)
-banco.consultarCuenta('CJPPD-1')
-banco.consultarCuenta('CJPPD-2')
-banco.retirar('CJPPD-1', 250)
-banco.consultarCuenta('CJPPD-1')
-banco.transferir('CJPPD-1','CJPPD-2',450)
-banco.consultarCuenta('CJPPD-1')
-banco.consultarCuenta('CJPPD-2')
+    

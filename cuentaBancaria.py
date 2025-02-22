@@ -1,7 +1,13 @@
 class CuentaBancaria:
     def __init__(self, titular, saldo, numeroCuenta):
         self.__titular = titular
-        self.__saldo = saldo
+        try:
+            saldoNum = int(saldo)
+        except ValueError:
+            raise ValueError("VALOR INCORRECTO")
+        if saldoNum < 0:
+            raise ValueError("MONTO MENOR QUE 0 NO PERMITIDO")
+        self.__saldo = saldoNum
         self.__numeroCuenta = 'CJPPD-{0}'.format(numeroCuenta)
         self.__historialTransacciones = []
     def __str__(self):
@@ -18,3 +24,5 @@ class CuentaBancaria:
         return 'SU HISTORIAL DE TRANSACCIONES: {0}'.format(self.__historialTransacciones)
     def registrarTransaccion(self, infoTransaccion):
         self.__historialTransacciones.append(infoTransaccion)
+    def getTitular(self):
+        return self.__titular
