@@ -19,9 +19,7 @@ class CuentaBancaria:
     def setSaldo(self, monto):
         self.__saldo = monto
     def getHistorialTransacciones(self):
-        if(len(self.__historialTransacciones) == 0):
-            return 'NO HAY TRANSACCIONES REGISTRADAS'
-        return 'SU HISTORIAL DE TRANSACCIONES: {0}'.format(self.__historialTransacciones)
+        return self.__historialTransacciones
     def registrarTransaccion(self, infoTransaccion):
         self.__historialTransacciones.append(infoTransaccion)
     def getTitular(self):

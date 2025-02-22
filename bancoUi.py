@@ -1,4 +1,5 @@
 import tkinter as tki
+from tkinter import ttk 
 class BancoUi(tki.Frame):
     def __init__(self, controlador):
         super().__init__()
@@ -78,3 +79,17 @@ class VentanaInfoCuenta(tki.Toplevel):
         self.controlador = controlador
         self.title("BIENVENID@ A SU CUENTA, {0}".format(self.cuentaSesion.getTitular()))
         self.geometry("500x500")
+        self.iniciarComponentes()
+    def iniciarComponentes(self):
+        self.tv = ttk.Treeview(self)
+        self.infoCuenta = self.tv.insert("","end", text="Información de tu cuenta")
+        self.tv.insert(self.infoCuenta,"end",text="TITULAR DE LA CUENTA: {0}".format(self.cuentaSesion.getTitular()))
+        self.tv.insert(self.infoCuenta,"end",text="SALDO DISPONIBLE: {0}".format(self.cuentaSesion.getSaldo()))
+        self.infoTransacciones = self.tv.insert("","end",text="Informacion de tus transacciones")
+        transacciones = self.cuentaSesion.getHistorialTransacciones()
+        if len(transacciones) == 0:
+            self.tv.insert(self.infoTransacciones,"end",text="NO HAS HECHO TRANSACCIONES")
+        else:
+            for transaccion in transacciones:
+                self.tv.insert(self.infoTransacciones,"end",text=str(transaccion))
+        self.tv.pack(fill=tki.BOTH, expand=True)

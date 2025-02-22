@@ -22,7 +22,7 @@ class ControladorCuentas:
         cuenta = self.vista.entradaCuenta.get()
         try:
             cuenta = self.banco.consultarCuenta(cuenta)
-            pass
         except ValueError as err:
             self.vista.mostrarErrorCuenta(str(err))
+            return
         self.ventanaInfoCuenta = VentanaInfoCuenta(self,cuenta)
