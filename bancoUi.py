@@ -1,52 +1,53 @@
 import tkinter as tki
 from tkinter import ttk 
-class BancoUi(tki.Frame):
+def calcularCentroPantalla(anchoVentana, alturaVentana, ventana):
+    anchoPantalla = tki.Tk.winfo_screenwidth(ventana)
+    altoPantalla = tki.Tk.winfo_screenheight(ventana)
+    posX = (anchoPantalla // 2) - (anchoVentana // 2)
+    posY = (altoPantalla // 2) - (alturaVentana // 2)
+    return posX, posY
+class BancoUi(tki.Tk):
     def __init__(self, controlador):
         super().__init__()
         self.controlador = controlador
         self.crearElementos()
-        self.pack()
+        self.title("BANCO UAM")
+        self.ancho = 375
+        self.alto = 415
+        posX, posY = calcularCentroPantalla(self.ancho, self.alto, self)
+        self.geometry(f"{self.ancho}x{self.alto}+{posX}+{posY}")
     def crearElementos(self):
-        self.titulo = tki.Label(self, text="Bienvenido a BancUAM\n")
-        self.instrucciones=tki.Label(self, text=" Por favor, ingrese su numero de cuenta: \n")
+        self.titulo = tki.Label(self, text="Bienvenido a BancUAM")
+        self.instrucciones=tki.Label(self, text=" Por favor, ingrese su numero de cuenta")
         self.entradaCuenta = tki.Entry(self)
         self.entradaCuenta.configure(bg="lightblue")
         self.errorCuenta = tki.Label(self, text="", fg="red")
-        self.saltodelinea= tki.Label(self, text="\n")
         self.botonContinuar= tki.Button(self, text="Continuar", command=self.controlador.buscarCuenta)
         self.botonContinuar.configure(bg="lightblue")
-        self.saltodelinea1 = tki.Label(self, text="\n")
-        self.etiquetaCrearcuenta = tki.Label(self, text="¿Todavia no tiene una cuenta? !Cree una¡ \n")
+        self.etiquetaCrearcuenta = tki.Label(self, text="¿Todavia no tiene una cuenta? !Cree una¡")
         self.botonCrearCuenta = tki.Button(self, text="Crear cuenta", command=self.controlador.formularioCrearCuenta)
         self.botonCrearCuenta.configure(bg="lightblue")
         self.titulo.pack()
-        self.instrucciones.pack()
-        self.entradaCuenta.pack()
+        self.instrucciones.pack(pady=5)
+        self.entradaCuenta.pack(pady=5)
         self.errorCuenta.pack()
-        self.saltodelinea.pack()
-        self.botonContinuar.pack()
-        self.saltodelinea1.pack()
-        self.etiquetaCrearcuenta.pack()
-        self.botonCrearCuenta.pack()
+        self.botonContinuar.pack(pady=20)
+        self.etiquetaCrearcuenta.pack(pady=5)
+        self.botonCrearCuenta.pack(pady=20)
     def mostrarVentanaPrincipal(self):
         self.mainloop()
     def mostrarErrorCuenta(self, mensaje):
         self.errorCuenta.configure(text=mensaje)
-    #acciones de entradas o botones
-    def crearCuenta(self):
-        pass
-    def nCuntaIngresado(self):
-        nCuentaInput = self.entradaCuenta.get()
-    def botonSiguiente(self):
-        pass
-    # definicion de titulos, labels, botones..
 class CrearCuentaForm(tki.Toplevel):
     def __init__(self, controlador):
         super().__init__()
         self.title("FORMULARIO CREAR CUENTA")
         self.controlador = controlador
+        self.ancho = 450
+        self.alto = 375
+        posX, posY = calcularCentroPantalla(self.ancho, self.alto, self)
+        self.geometry(f"{self.ancho}x{self.alto}+{posX}+{posY}")
         self.crearElementos()
-        self.geometry("300x400")
     def crearElementos(self):
         self.titulo = tki.Label(self,text="¡CREA UNA NUEVA CUENTA DE AHORROS CON NOSOTROS!")
         self.instruccion = tki.Label(self,text='¡POR FAVOR INGRESA TU NOMBRE!')
@@ -78,7 +79,10 @@ class VentanaInfoCuenta(tki.Toplevel):
         self.cuentaSesion = cuenta
         self.controlador = controlador
         self.title("BIENVENID@ A SU CUENTA, {0}".format(self.cuentaSesion.getTitular()))
-        self.geometry("600x500")
+        self.ancho = 650
+        self.alto = 550
+        posX, posY = calcularCentroPantalla(self.ancho, self.alto, self)
+        self.geometry(f"{self.ancho}x{self.alto}+{posX}+{posY}")
         self.iniciarComponentes()
     def iniciarComponentes(self):
         self.tv = ttk.Treeview(self)
@@ -95,13 +99,13 @@ class VentanaInfoCuenta(tki.Toplevel):
         self.panelBotones = tki.Frame(self)
         self.labelBoton = tki.Label(self.panelBotones, text="¿DESEA DEPOSITAR DINERO?")
         self.botonDepositar = tki.Button(self.panelBotones,text="DEPOSITAR", command=self.controlador.depositarDinero)
-        self.botonDepositar.configure(bg="lightblue")
+        self.botonDepositar.configure(bg="skyblue")
         self.labelBoton2 = tki.Label(self.panelBotones,text="¿DESEA RETIRAR DINERO?")
-        self.botonRetirar = tki.Button(self.panelBotones,text="RETIRAR",bg="lightblue",command=self.controlador.retirarDinero)
+        self.botonRetirar = tki.Button(self.panelBotones,text="RETIRAR",bg="skyblue",command=self.controlador.retirarDinero)
         self.labelBoton3 = tki.Label(self.panelBotones, text="¿DESEA TRANSFERIR A OTRA CUENTA?")
-        self.botonTransferir = tki.Button(self.panelBotones,text="TRANSFERIR",command=self.controlador.transferirDinero)
+        self.botonTransferir = tki.Button(self.panelBotones,text="TRANSFERIR",command=self.controlador.transferirDinero, bg="skyblue")
         self.labelBoton4 = tki.Label(self.panelBotones,text="SALIDA SEGURA")
-        self.botonSalida = tki.Button(self.panelBotones,text="SALIDA")
+        self.botonSalida = tki.Button(self.panelBotones,text="SALIDA",command=self.controlador.salidaSegura,bg="#F0291A")
         self.tv.pack(fill=tki.X, side=tki.TOP, padx=10, pady=10)
         texto_footer = "© 2025 BancUAM. Todos los derechos reservados. Autores: Olave,Pinilla,Johan,Camila"
         footer_label = tki.Label(self, text=texto_footer, font=("Arial", 10), fg="gray")
@@ -124,7 +128,10 @@ class formularioDepositarDinero(tki.Toplevel):
         super().__init__()
         self.controlador = controlador
         self.title("FORMULARIO DEPOSITO DE DINERO")
-        self.geometry("400x400")
+        self.ancho = 450
+        self.alto = 375
+        posX, posY = calcularCentroPantalla(self.ancho, self.alto, self)
+        self.geometry(f"{self.ancho}x{self.alto}+{posX}+{posY}")
         self.cuenta = cuenta
         self.iniciarComponentes()
     def iniciarComponentes(self):
@@ -144,7 +151,10 @@ class formularioRetirarDinero(tki.Toplevel):
         super().__init__()
         self.controlador = controlador
         self.title("FORMULARIO RETIRO DE DINERO")
-        self.geometry("400x400")
+        self.ancho = 450
+        self.alto = 375
+        posX, posY = calcularCentroPantalla(self.ancho, self.alto, self)
+        self.geometry(f"{self.ancho}x{self.alto}+{posX}+{posY}")
         self.cuenta = cuenta
         self.iniciarComponentes()
     def iniciarComponentes(self):
@@ -164,7 +174,23 @@ class FormularioTransferirDinero(tki.Toplevel):
         self.controlador = controlador
         self.cuentaOrigen = cuentaOrigen
         self.title("FORMULARIO TRANSFERENCIA DE DINERO")
-        self.geometry("300x300")
+        self.ancho = 450
+        self.alto = 375
+        posX, posY = calcularCentroPantalla(self.ancho, self.alto, self)
+        self.geometry(f"{self.ancho}x{self.alto}+{posX}+{posY}")
         self.iniciarComponentes()
     def iniciarComponentes(self):
-        pass
+        self.instruccion1 = tki.Label(self,text="INGRESE EL NUMERO DE CUENTA DESTINO: ",pady=20)
+        self.entradaCuentaDestino = tki.Entry(self)
+        self.instruccion2 = tki.Label(self,text="INGRESE EL SALDO A TRANSFERIR: ",pady=20)
+        self.entradaSaldoDestino = tki.Entry(self)
+        self.errorLabel1 = tki.Label(self, text="")
+        self.botonTransferir = tki.Button(self,text="TRANSFERIR",bg="skyblue",command=self.controlador.transferir)
+        self.instruccion1.pack()
+        self.entradaCuentaDestino.pack()
+        self.instruccion2.pack()
+        self.entradaSaldoDestino.pack()
+        self.errorLabel1.pack()
+        self.botonTransferir.pack()
+    def mostrarErrorCuenta(self,mensaje):
+        self.errorLabel1.configure(text=mensaje, fg="red")

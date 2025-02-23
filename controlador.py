@@ -4,6 +4,7 @@ from bancoUi import CrearCuentaForm
 from bancoUi import VentanaInfoCuenta
 from bancoUi import formularioDepositarDinero
 from bancoUi import formularioRetirarDinero
+from bancoUi import FormularioTransferirDinero
 class ControladorCuentas:
     def __init__(self):
         self.banco = Banco()
@@ -33,7 +34,7 @@ class ControladorCuentas:
     def retirarDinero(self):
         self.formularioRetiro = formularioRetirarDinero(self,self.cuentaSesion)
     def transferirDinero(self):
-        pass
+        self.formularioTransferencia = FormularioTransferirDinero(self, self.cuentaSesion)
     def depositar(self):
         valor = self.formularioDeposito.entradaMonto.get()
         try:
@@ -48,3 +49,14 @@ class ControladorCuentas:
             self.formularioRetiro.destroy()
         except ValueError as e:
             self.formularioRetiro.mostrarError(str(e))
+    def transferir(self):
+        cuentaDestino = self.formularioTransferencia.entradaCuentaDestino.get()
+        saldoDestino = self.formularioTransferencia.entradaSaldoDestino.get()
+        try:
+            self.banco.transferir(self.cuentaSesion,cuentaDestino,saldoDestino)
+            self.formularioTransferencia.destroy()
+        except ValueError as e:
+            self.formularioTransferencia.mostrarErrorCuenta(str(e))
+    def salidaSegura(self):
+        self.ventanaInfoCuenta.destroy()
+        self.cuentaSesion = None

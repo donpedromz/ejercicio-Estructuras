@@ -95,4 +95,25 @@ class Banco:
         cuentaDestino.setSaldo(nuevoSaldoDestino)
         infDestino = '${0} RECIBIDOS DE: {1}|{2}'.format(monto, cuentaOrigen.getNumeroCuenta(), date.today())
         cuentaDestino.registrarTransaccion(infDestino)
-    
+    def transferir(self, cuentaOrigen, numeroCuentaDestino, monto):
+        if(cuentaOrigen.getNumeroCuenta() == numeroCuentaDestino):
+            raise ValueError("INGRESE OTRO NUMERO DE CUENTA")
+        try:
+            cuentaDestino = self.consultarCuenta(numeroCuentaDestino)
+        except ValueError as e:
+            raise e
+        try:
+            saldoTransferencia = int(monto)
+        except ValueError:
+            raise ValueError("VALOR INVÁLIDO")
+        if saldoTransferencia > cuentaOrigen.getSaldo():
+            raise ValueError("SALDO EXCEDE EL SALDO DISPONIBLE EN LA CUENTA")
+        saldoCuentaOrigen = cuentaOrigen.getSaldo() - saldoTransferencia
+        saldoCuentaDestino = cuentaDestino.getSaldo() + saldoTransferencia
+        infoCuentaOrigen = "${0} TRANSFERIDOS A {1} ({2}) | {3}".format(saldoTransferencia, cuentaDestino.getTitular(), cuentaDestino.getNumeroCuenta(), date.today())
+        infoCuentaDestino = "${0} RECIBIDOS DE {1} ({2}) | {3}".format(saldoTransferencia, cuentaOrigen.getTitular(), cuentaOrigen.getNumeroCuenta(), date.today())
+        cuentaOrigen.setSaldo(saldoCuentaOrigen)
+        cuentaOrigen.registrarTransaccion(infoCuentaOrigen)
+        cuentaDestino.setSaldo(saldoCuentaDestino)
+        cuentaDestino.registrarTransaccion(infoCuentaDestino)
+        

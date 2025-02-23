@@ -24,3 +24,5 @@ class CuentaBancaria:
         self.__historialTransacciones.append(infoTransaccion)
     def getTitular(self):
         return self.__titular
+    def getNumeroCuenta(self):
+        return self.__numeroCuenta
