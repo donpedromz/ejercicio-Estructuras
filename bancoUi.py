@@ -144,7 +144,7 @@ class formularioDepositarDinero(tki.Toplevel):
         self.botonDepositar.pack(pady=20)
         self.errorLabel.pack()
     def mostrarError(self,mensaje):
-        self.errorLabel.configure(text=mensaje,bg="red")
+        self.errorLabel.configure(text=mensaje,fg="red")
 
 class formularioRetirarDinero(tki.Toplevel):
     def __init__(self, controlador, cuenta):
@@ -167,7 +167,7 @@ class formularioRetirarDinero(tki.Toplevel):
         self.botonDepositar.pack(pady=20)
         self.errorLabel.pack()
     def mostrarError(self,mensaje):
-        self.errorLabel.configure(text=mensaje, bg="red")
+        self.errorLabel.configure(text=mensaje, fg="red")
 class FormularioTransferirDinero(tki.Toplevel):
     def __init__(self, controlador, cuentaOrigen):
         super().__init__()
