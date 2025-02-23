@@ -23,6 +23,18 @@ class Banco:
                 saldoNuevo = saldoActual + monto
                 cuenta[numero_cuenta].setSaldo(saldoNuevo)
                 return
+    def depositar(self, cuenta, monto):
+        saldoNuevo = cuenta.getSaldo()
+        try:
+            saldo = int(monto)
+        except ValueError:
+            raise ValueError("VALOR INCORRECTO")
+        if saldo < 10000:
+            raise ValueError("NO SE PERMITEN CONSIGNACIONES MENORES A $10.000")
+        saldoNuevo += saldo
+        infoTransaccion = 'DEPOSITADO: ${0} | {1}'.format(saldo,date.today())
+        cuenta.setSaldo(saldoNuevo)
+        cuenta.registrarTransaccion(infoTransaccion)
     def retirar(self, numero_cuenta, monto):
         for cuenta in self.cuentasBanco:
             if numero_cuenta in cuenta.keys():
@@ -46,6 +58,20 @@ class Banco:
                 cuenta[numero_cuenta].registrarTransaccion('')
                 cuenta[numero_cuenta].setSaldo(saldoNuevo)
                 return
+    def retirar(self, cuenta, monto):
+        saldoCuenta = cuenta.getSaldo()
+        try:
+            saldoRetiro = int(monto)
+        except ValueError:
+            raise ValueError("VALOR INVALIDO")
+        if(saldoRetiro < 0):
+            raise ValueError("VALOR MENOR QUE 0 INVALIDO")
+        if(saldoRetiro > saldoCuenta):
+            raise ValueError("SALDO A RETIRAR EXCEDE SALDO DE LA CUENTA")
+        saldoCuenta -= saldoRetiro
+        infoTransaccion = 'RETIRADO: ${0} | {1}'.format(saldoRetiro, date.today())
+        cuenta.setSaldo(saldoCuenta)
+        cuenta.registrarTransaccion(infoTransaccion)
     def consultarCuenta(self, numeroCuenta):
         for cuenta in self.cuentasBanco:
             if numeroCuenta in cuenta.keys():
