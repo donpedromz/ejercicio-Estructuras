@@ -16,13 +16,6 @@ class Banco:
         cuentaDict = dict()
         cuentaDict[cuentaNueva.getNumeroCuenta()] = cuentaNueva
         self.cuentasBanco.append(cuentaDict)
-    def depositar(self, numero_cuenta, monto):
-        for cuenta in self.cuentasBanco:
-            if numero_cuenta in cuenta.keys():
-                saldoActual = cuenta[numero_cuenta].getSaldo()
-                saldoNuevo = saldoActual + monto
-                cuenta[numero_cuenta].setSaldo(saldoNuevo)
-                return
     def depositar(self, cuenta, monto):
         saldoNuevo = cuenta.getSaldo()
         try:
@@ -35,37 +28,14 @@ class Banco:
         infoTransaccion = 'DEPOSITADO: ${0} | {1}'.format(saldo,date.today())
         cuenta.setSaldo(saldoNuevo)
         cuenta.registrarTransaccion(infoTransaccion)
-    def retirar(self, numero_cuenta, monto):
-        for cuenta in self.cuentasBanco:
-            if numero_cuenta in cuenta.keys():
-                saldoActual = cuenta[numero_cuenta].getSaldo()
-                if(monto > saldoActual):
-                    print('MONTO A RETIRAR EXCEDIÓ SU SALDO')
-                    return
-                saldoNuevo = saldoActual - monto
-                infoTransaccion = 'SE HA RETIRADO: {0}|{1}'.format(monto, date.today())
-                cuenta[numero_cuenta].registrarTransaccion(infoTransaccion)
-                cuenta[numero_cuenta].setSaldo(saldoNuevo)
-                return
-        for cuenta in self.cuentasBanco:
-            if numero_cuenta in cuenta.keys():
-                saldoActual = cuenta[numero_cuenta].getSaldo()
-                if(monto > saldoActual):
-                    print('MONTO A RETIRAR EXCEDIÓ SU SALDO')
-                    return
-                saldoNuevo = saldoActual - monto
-                infoTransaccion = 'SE HA RETIRADO: {0}|{1}'.format(monto, date.today())
-                cuenta[numero_cuenta].registrarTransaccion('')
-                cuenta[numero_cuenta].setSaldo(saldoNuevo)
-                return
     def retirar(self, cuenta, monto):
         saldoCuenta = cuenta.getSaldo()
         try:
             saldoRetiro = int(monto)
         except ValueError:
             raise ValueError("VALOR INVALIDO")
-        if(saldoRetiro < 0):
-            raise ValueError("VALOR MENOR QUE 0 INVALIDO")
+        if(saldoRetiro < 10000):
+            raise ValueError("VALOR MENOR QUE 10000 INVALIDO")
         if(saldoRetiro > saldoCuenta):
             raise ValueError("SALDO A RETIRAR EXCEDE SALDO DE LA CUENTA")
         saldoCuenta -= saldoRetiro
@@ -77,24 +47,6 @@ class Banco:
             if numeroCuenta in cuenta.keys():
                 return cuenta[numeroCuenta]
         raise ValueError("CUENTA NO ENCONTRADA")
-    def transferir(self, numCuentaOrigen, numCuentaDestino, monto):
-        for cuenta in self.cuentasBanco:
-            if numCuentaOrigen in cuenta.keys():
-                cuentaOrigen = cuenta[numCuentaOrigen]
-                saldoOrigen = cuentaOrigen.getSaldo()
-            if numCuentaDestino in cuenta.keys():
-                cuentaDestino = cuenta[numCuentaDestino]
-                saldoDestino = cuentaDestino.getSaldo()
-        if(monto > saldoOrigen):
-            return
-        nuevoSaldoOrigen = saldoOrigen - monto
-        cuentaOrigen.setSaldo(nuevoSaldoOrigen)
-        infOrigen = '${0} TRANSFERIDOS A: {1}|{2}'.format(monto,cuentaDestino.getNumeroCuenta(), date.today())
-        cuentaOrigen.registrarTransaccion(infOrigen)
-        nuevoSaldoDestino = saldoDestino + monto
-        cuentaDestino.setSaldo(nuevoSaldoDestino)
-        infDestino = '${0} RECIBIDOS DE: {1}|{2}'.format(monto, cuentaOrigen.getNumeroCuenta(), date.today())
-        cuentaDestino.registrarTransaccion(infDestino)
     def transferir(self, cuentaOrigen, numeroCuentaDestino, monto):
         if(cuentaOrigen.getNumeroCuenta() == numeroCuentaDestino):
             raise ValueError("INGRESE OTRO NUMERO DE CUENTA")

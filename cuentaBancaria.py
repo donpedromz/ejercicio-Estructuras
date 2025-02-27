@@ -5,8 +5,8 @@ class CuentaBancaria:
             saldoNum = int(saldo)
         except ValueError:
             raise ValueError("VALOR INCORRECTO")
-        if saldoNum < 0:
-            raise ValueError("MONTO MENOR QUE 0 NO PERMITIDO")
+        if saldoNum < 10000:
+            raise ValueError("MONTO MENOR QUE 10000 NO PERMITIDO")
         self.__saldo = saldoNum
         self.__numeroCuenta = 'CJPPD-{0}'.format(numeroCuenta)
         self.__historialTransacciones = []

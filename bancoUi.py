@@ -107,7 +107,7 @@ class VentanaInfoCuenta(tki.Toplevel):
         self.labelBoton4 = tki.Label(self.panelBotones,text="SALIDA SEGURA")
         self.botonSalida = tki.Button(self.panelBotones,text="SALIDA",command=self.controlador.salidaSegura,bg="#F0291A")
         self.tv.pack(fill=tki.X, side=tki.TOP, padx=10, pady=10)
-        texto_footer = "© 2025 BancUAM. Todos los derechos reservados. Autores: Olave,Pinilla,Johan,Camila"
+        texto_footer = "© 2025 BancUAM. Todos los derechos reservados. Autores: Olave,Pinilla,Johan,Camila, Darihana"
         footer_label = tki.Label(self, text=texto_footer, font=("Arial", 10), fg="gray")
         for i in range(2):
             self.panelBotones.rowconfigure(i, weight=1)
@@ -122,7 +122,7 @@ class VentanaInfoCuenta(tki.Toplevel):
         self.botonTransferir.grid(row=1,column=1, sticky="nsew")
         self.labelBoton4.grid(row=1,column=2)
         self.botonSalida.grid(row=1,column=3, sticky="nsew")
-        footer_label.pack(side="bottom", fill="x", pady=5,padx=4)
+        footer_label.pack(side="bottom", pady=5,padx=4)
 class formularioDepositarDinero(tki.Toplevel):
     def __init__(self, controlador, cuenta):
         super().__init__()
