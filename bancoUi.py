@@ -122,7 +122,7 @@ class VentanaInfoCuenta(tki.Toplevel):
         self.botonTransferir.grid(row=1,column=1, sticky="nsew")
         self.labelBoton4.grid(row=1,column=2)
         self.botonSalida.grid(row=1,column=3, sticky="nsew")
-        footer_label.pack(side="bottom", pady=5,padx=4)
+        footer_label.pack(side="bottom", fill="x", pady=5,padx=4)
 class formularioDepositarDinero(tki.Toplevel):
     def __init__(self, controlador, cuenta):
         super().__init__()
